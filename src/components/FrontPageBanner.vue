@@ -3,7 +3,7 @@
     :modules="modules"
     :slides-per-view="1"
     :space-between="0"
-    :autoplay="{ delay: 3000 }"
+    :autoplay="{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }"
     :speed="1500"
     @swiper="onSwiper"
     @slideChange="onSlideChange"
