@@ -1,16 +1,19 @@
 <template>
   <Header/>
+  <FrontPageBanner/>
   <MoviePopularList msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import MoviePopularList from './components/MoviePopularList.vue'
+import FrontPageBanner from './components/FrontPageBanner.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
+    FrontPageBanner,
     MoviePopularList
   },
   methods: {

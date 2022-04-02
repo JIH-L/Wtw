@@ -1,23 +1,22 @@
 <template>
   <div class="movie-popular-list">
+    <h3>熱門電影</h3>
     <ul>
-      <li v-for="movie in movies" :key="movie.id">
-        <img :src="imgUrl + movie.poster_path" alt="movie-img" width="200">
-        <p>{{ movie.title }}</p>
-      </li>
+      <MovieCard :movies="movies"/>
     </ul>
   </div>
 </template>
 
 <script>
+import MovieCard from './MovieCard.vue'
+
 export default {
   name: 'MoviePopularList',
-  props: {
-    msg: String
+  components: {
+    MovieCard,
   },
   data() {
     return {
-      imgUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/',
       movies: [],
     };
   },
@@ -26,7 +25,7 @@ export default {
       "https://api.themoviedb.org/3/movie/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW"
     ).then((response) => {
       this.movies = response.data.results;
-    }).catch( error => {
+    }).catch(error => {
         console.log(error);
     })
   }
@@ -38,12 +37,5 @@ export default {
 ul {
   list-style-type: none;
   padding: 0;
-  li {
-    display: inline-block;
-    margin: 0 10px;
-    a {
-      color: #42b983;
-    }
-  }
 }
 </style>
