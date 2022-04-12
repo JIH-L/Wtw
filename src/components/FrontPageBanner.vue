@@ -5,8 +5,6 @@
     :space-between="0"
     :autoplay="{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }"
     :speed="1500"
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
     :pagination="{ clickable: true }"
   >
     <swiper-slide v-for="movie in filterMovieItems" :key="movie.id" :style="{'background-image': 'url(' + imgUrl + movie.poster_path + ')'}">
@@ -36,15 +34,7 @@ export default {
       SwiperSlide,
     },
     setup() {
-      const onSwiper = (swiper) => {
-        console.log(swiper);
-      };
-      const onSlideChange = () => {
-        console.log('slide change');
-      };
       return {
-        onSwiper,
-        onSlideChange,
         modules: [Navigation, Pagination, Autoplay],
       };
     },

@@ -1,6 +1,6 @@
 <template>
-  <div class="movie-popular-list">
-    <h3>熱門電影</h3>
+  <div class="tv-popular-list-korea">
+    <h3>熱門韓劇</h3>
     <swiper
       :modules="modules"
       :slides-per-view="2.5"
@@ -10,7 +10,7 @@
     >
       <swiper-slide v-for="movie in movies" :key="movie.id">
         <ListCard 
-          :title="movie.title"
+          :title="movie.name"
           :posterPath="movie.poster_path"
           :vote="movie.vote_average"/>
       </swiper-slide>
@@ -19,11 +19,13 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import ListCard from './ListCard.vue'
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import axios from 'axios';
 export default {
   name: 'MoviePopularList',
   components: {
@@ -32,51 +34,58 @@ export default {
     SwiperSlide,
   },
   setup() {
+    let url = 'https://api.themoviedb.org/3/tv/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW'
+    let movies = ref([]);
+    async function downloadRecords() {
+      let page = 0;
+      let totalPages = 0;
+      do {
+          let { data: response }  = await axios.get(url, { params: { page: ++page } });
+          totalPages = response.total_pages;
+          console.log(`downloadRecords: page ${page} of ${totalPages} downloaded...`);
+          movies.value = movies.value.concat(response.results);
+          movies.value = movies.value.filter(item => item.origin_country == 'KR');
+          console.log("records.length:", movies.value.length);
+      } while (movies.value.length < 30)
+    }
+
+    onMounted(downloadRecords);
+
     return {
       modules: [Navigation],
+      movies,
     };
   },
   data() {
     return {
-      movies: [],
       swiperOptions: {
         breakpoints: {
           768: {
-            slidesPerView: 5,
-            spaceBetween: 9
+            slidesPerView: 5,       
+            spaceBetween: 9     
           },
           1280: {       
-            slidesPerView: 6,
-            spaceBetween: 16
+            slidesPerView: 6,       
+            spaceBetween: 16    
           }
         }
       }
-
     };
   },
-  mounted() {
-    this.axios.get(
-      "https://api.themoviedb.org/3/movie/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW"
-    ).then((response) => {
-      this.movies = response.data.results;
-    }).catch(error => {
-        console.log(error);
-    })
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.movie-popular-list{
+.tv-popular-list-korea {
   position: relative;
-  margin: 0 0 0 16px;
-  @media (min-width:768px) {
-    margin: 0 16px;
-  }
+  background: rgba(104, 107, 114, 0.1);
+  padding: 16px;
   @media (min-width:1280px) {
+    border-radius: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 40px 0;
   }
   h3 {
     text-align: start;

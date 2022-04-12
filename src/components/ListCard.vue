@@ -1,11 +1,11 @@
 <template>
-  <li v-for="movie in movies" :key="movie.id">
-    <div class="movie-img-wrapper">
-        <img :src="imgUrl + movie.poster_path" alt="movie-img" width="152">
-        <span class="movie-vote">{{ parseFloat(movie.vote_average).toFixed(1) }}</span>
+<div class="movie-card">
+    <div class="movie-card__img-wrapper">
+        <img :src="imgUrl + posterPath" alt="movie-img" width="152">
+        <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
     </div>
-    <p>{{ movie.title }}</p>
-  </li>
+    <p class="movie-card__title">{{ title }}</p>
+</div>
 </template>
 
 <script>
@@ -13,7 +13,9 @@
 export default {
     name: 'MovieCard',
     props: {
-        movies: Array
+        title: String,
+        posterPath: String,
+        vote: Number,
     },
     data () {
         return {
@@ -26,12 +28,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  li {
-      display: inline-block;
-    margin: 0 10px;
-    .movie-img-wrapper {
+.movie-card {
+    &__title {
+        margin-bottom: 0;
+    }
+    &__img-wrapper {
         position: relative;
+
         img {
+            width: 100%;
+            height: auto;
             border-radius: 8px;
             overflow: hidden;
             /* shadow */
@@ -54,5 +60,5 @@ export default {
             line-height: 21px;
         }
     }
-  }
+}
 </style>
