@@ -111,7 +111,7 @@ export default {
             font-size: 33px;
             font-weight: 700;
             background: linear-gradient(to right, #C10171 30%, #5C00F2 70%);
-            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             @media (min-width:768px) {
                 font-size: 61px;
@@ -175,9 +175,6 @@ export default {
                     margin-right: 10px;
                     background-image: linear-gradient(to right, #161616, #161616), linear-gradient(91.47deg, #C10171 3.73%, #5C00F2 100%);
                 }
-            }
-            .add-list {
-
             }
         }
     }

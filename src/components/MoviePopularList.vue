@@ -70,13 +70,13 @@ export default {
 <style lang="scss" scoped>
 .movie-popular-list{
   position: relative;
-  margin: 0 0 0 16px;
+  margin: 0 0 30px 16px;
   @media (min-width:768px) {
-    margin: 0 16px;
+    margin: 0 16px 30px;
   }
   @media (min-width:1280px) {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 20px;
   }
   h3 {
     text-align: start;

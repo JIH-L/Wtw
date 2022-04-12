@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 body {
   background: #1B1E25;
 }
@@ -38,4 +38,16 @@ body {
   text-align: center;
   color: #fff;
 }
+  @keyframes rotation {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+  }
+  img[lazy=loading] {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  img[lazy=loaded] {
+    opacity: 1;
+    transition: opacity 1s;
+  }
 </style>

@@ -38,14 +38,14 @@ export default {
     let movies = ref([]);
     async function downloadRecords() {
       let page = 0;
-      let totalPages = 0;
+      // let totalPages = 0;
       do {
           let { data: response }  = await axios.get(url, { params: { page: ++page } });
-          totalPages = response.total_pages;
-          console.log(`downloadRecords: page ${page} of ${totalPages} downloaded...`);
+          // totalPages = response.total_pages;
+          // console.log(`downloadRecords: page ${page} of ${totalPages} downloaded...`);
           movies.value = movies.value.concat(response.results);
           movies.value = movies.value.filter(item => item.origin_country == 'KR');
-          console.log("records.length:", movies.value.length);
+          // console.log("records.length:", movies.value.length);
       } while (movies.value.length < 30)
     }
 
@@ -80,7 +80,10 @@ export default {
 .tv-popular-list-korea {
   position: relative;
   background: rgba(104, 107, 114, 0.1);
-  padding: 16px;
+  padding: 16px 0px 16px 16px;
+  @media (min-width:768px) {
+    padding: 40px 16px;
+  }
   @media (min-width:1280px) {
     border-radius: 20px;
     max-width: 1200px;

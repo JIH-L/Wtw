@@ -1,7 +1,7 @@
 <template>
 <div class="movie-card">
     <div class="movie-card__img-wrapper">
-        <img :src="imgUrl + posterPath" alt="movie-img" width="152">
+        <img v-lazy="lazyOptions.src" alt="movie-img" width="152">
         <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
     </div>
     <p class="movie-card__title">{{ title }}</p>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-
+import { reactive } from 'vue'
 export default {
     name: 'MovieCard',
     props: {
@@ -17,12 +17,24 @@ export default {
         posterPath: String,
         vote: Number,
     },
-    data () {
+    setup(props) {
+        const lazyOptions = reactive({
+            src: `https://www.themoviedb.org/t/p/w440_and_h660_face${props.posterPath}`,
+            lifecycle: {
+                loading: (el) => {
+                console.log('image loading', el)
+                },
+                error: (el) => {
+                console.log('image error', el)
+                },
+                loaded: (el) => {
+                console.log('image loaded', el)
+                }
+            }
+        })
         return {
-            imgUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face',
+            lazyOptions,
         }
-    },
-    computed: {
     }
 }
 </script>
@@ -31,6 +43,12 @@ export default {
 .movie-card {
     &__title {
         margin-bottom: 0;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: normal;
     }
     &__img-wrapper {
         position: relative;
@@ -38,6 +56,7 @@ export default {
         img {
             width: 100%;
             height: auto;
+            min-height: 228px;
             border-radius: 8px;
             overflow: hidden;
             /* shadow */
