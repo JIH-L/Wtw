@@ -1,13 +1,16 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import VueLazyLoad from "vue3-lazyload";
+
 // import "@/assets/scss/variables.scss";
 import "normalize.css/normalize.css";
 
+import router from './router'
+
 // createApp(App).use(VueAxios, axios, VueLazyLoad).mount("#app");
-const app = createApp(App);
+const app = createApp(App).use(router);
 app.use(VueAxios, axios);
 app.use(VueLazyLoad, {
   loading: "",

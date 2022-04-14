@@ -7,13 +7,14 @@
     :speed="1500"
     :pagination="{ clickable: true }"
   >
-    <swiper-slide v-for="movie in filterMovieItems" :key="movie.id" :style="{'background-image': 'url(' + imgUrl + movie.poster_path + ')'}">
+    <swiper-slide v-for="movie in filterMovieItems" :key="movie.id" 
+    :style="{'background-image': 'url(' + imgUrl + movie.backdrop_path + ')'}">
         <div class="banner-info">
             <span>{{ parseFloat(movie.vote_average).toFixed(1) }}</span>
             <h2>{{ movie.title }}</h2>
             <p>{{ movie.overview }}</p>
             <div class="banner-info__link">
-                <a href="#" class="more">更多資訊</a>
+                <router-link :to="`/movie/${movie.id}`" class="more">更多資訊</router-link>
                 <a href="#" class="add-list">加入片單</a>
             </div>
         </div>
@@ -179,7 +180,7 @@ export default {
         }
     }
 }
-/deep/ .swiper-pagination {
+:deep() .swiper-pagination {
     text-align: end;
     bottom: 24px;
     transform: translate3d(-24px,0,0);

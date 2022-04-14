@@ -12,7 +12,8 @@
         <ListCard 
           :title="movie.title"
           :posterPath="movie.poster_path"
-          :vote="movie.vote_average"/>
+          :vote="movie.vote_average"
+          :id="movie.id"/>
       </swiper-slide>
     </swiper>
   </div>
@@ -90,8 +91,8 @@ export default {
   @media (min-width:1280px) {
     margin: 0px 104px;
   }
-  /deep/ .swiper-button-next,
-  /deep/ .swiper-button-prev {
+  :deep() .swiper-button-next,
+  :deep() .swiper-button-prev {
     display: none;
     @media (min-width:1280px) {
       display: flex;
@@ -105,10 +106,10 @@ export default {
       color: #fff;
     }
   }
-  /deep/ .swiper-button-prev {
+  :deep() .swiper-button-prev {
     left: 26px;
   }
-  /deep/ .swiper-button-next {
+  :deep() .swiper-button-next {
     right: 26px;
   }
 }

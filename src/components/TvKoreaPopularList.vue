@@ -12,7 +12,8 @@
         <ListCard 
           :title="movie.name"
           :posterPath="movie.poster_path"
-          :vote="movie.vote_average"/>
+          :vote="movie.vote_average"
+          :id="movie.id"/>
       </swiper-slide>
     </swiper>
   </div>
@@ -36,20 +37,16 @@ export default {
   setup() {
     let url = 'https://api.themoviedb.org/3/tv/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW'
     let movies = ref([]);
-    async function downloadRecords() {
+    async function fetchMovieData() {
       let page = 0;
-      // let totalPages = 0;
       do {
           let { data: response }  = await axios.get(url, { params: { page: ++page } });
-          // totalPages = response.total_pages;
-          // console.log(`downloadRecords: page ${page} of ${totalPages} downloaded...`);
           movies.value = movies.value.concat(response.results);
           movies.value = movies.value.filter(item => item.origin_country == 'KR');
-          // console.log("records.length:", movies.value.length);
       } while (movies.value.length < 30)
     }
 
-    onMounted(downloadRecords);
+    onMounted(fetchMovieData);
 
     return {
       modules: [Navigation],
@@ -102,8 +99,8 @@ export default {
   @media (min-width:1280px) {
     margin: 0px 104px;
   }
-  /deep/ .swiper-button-next,
-  /deep/ .swiper-button-prev {
+  :deep() .swiper-button-next,
+  :deep() .swiper-button-prev {
     display: none;
     @media (min-width:1280px) {
       display: flex;
@@ -117,10 +114,10 @@ export default {
       color: #fff;
     }
   }
-  /deep/ .swiper-button-prev {
+  :deep() .swiper-button-prev {
     left: 26px;
   }
-  /deep/ .swiper-button-next {
+  :deep() .swiper-button-next {
     right: 26px;
   }
 }

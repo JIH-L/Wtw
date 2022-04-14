@@ -1,10 +1,12 @@
 <template>
 <div class="movie-card">
-    <div class="movie-card__img-wrapper">
-        <img v-lazy="lazyOptions.src" alt="movie-img" width="152">
-        <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
-    </div>
-    <p class="movie-card__title">{{ title }}</p>
+    <router-link :to="`/movie/${id}`">
+        <div class="movie-card__img-wrapper">
+            <img v-lazy="lazyOptions.src" alt="movie-img" width="152">
+            <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
+        </div>
+        <p class="movie-card__title">{{ title }}</p>
+    </router-link>
 </div>
 </template>
 
@@ -16,6 +18,7 @@ export default {
         title: String,
         posterPath: String,
         vote: Number,
+        id: Number,
     },
     setup(props) {
         const lazyOptions = reactive({
@@ -41,7 +44,12 @@ export default {
 
 <style lang="scss" scoped>
 .movie-card {
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
     &__title {
+        margin-top: 4px;
         margin-bottom: 0;
         overflow:hidden;
         text-overflow: ellipsis;
@@ -49,6 +57,9 @@ export default {
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         white-space: normal;
+        @media (min-width: 1280px) {
+            margin-top: 16px;
+        }
     }
     &__img-wrapper {
         position: relative;
@@ -56,11 +67,12 @@ export default {
         img {
             width: 100%;
             height: auto;
-            min-height: 228px;
             border-radius: 8px;
             overflow: hidden;
-            /* shadow */
             filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
+            @media (min-width: 1280px) {
+                min-height: 228px;
+            }
         }
         .movie-vote {
             position: absolute;

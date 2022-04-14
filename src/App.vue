@@ -1,32 +1,18 @@
 <template>
   <Header/>
-  <FrontPageBanner/>
-  <MoviePopularList/>
-  <TvKoreaPopularList />
+  <router-view/>
   <Footer />
 </template>
-
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-import FrontPageBanner from './components/FrontPageBanner.vue'
-import MoviePopularList from './components/MoviePopularList.vue'
-import TvKoreaPopularList from './components/TvKoreaPopularList.vue'
-
 export default {
-  name: 'App',
-  components: {
+    components: {
     Header,
     Footer,
-    FrontPageBanner,
-    MoviePopularList,
-    TvKoreaPopularList,
   },
-  methods: {
-  }
 }
 </script>
-
 <style lang="scss">
 body {
   background: #1B1E25;
@@ -38,16 +24,33 @@ body {
   text-align: center;
   color: #fff;
 }
-  @keyframes rotation {
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
+@keyframes rotation {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
+}
+img[lazy=loading] {
+  opacity: 0;
+  transition: opacity 1s;
+}
+img[lazy=loaded] {
+  opacity: 1;
+  transition: opacity 1s;
+}
+.span-label {
+  display: flex;
+  align-content: center;
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    min-height: 100%;
+    background: linear-gradient(91.47deg, #C10171 3.73%, #5C00F2 100%);
+    margin-right: 8px;
   }
-  img[lazy=loading] {
-    opacity: 0;
-    transition: opacity 1s;
-  }
-  img[lazy=loaded] {
-    opacity: 1;
-    transition: opacity 1s;
-  }
+}
 </style>

@@ -1,0 +1,61 @@
+<template>
+    <div class="intro__cast">
+        <swiper
+        :slides-per-view="4.3"
+        :space-between="8"
+        >
+            <swiper-slide v-for="cast in casts.cast" :key="cast.cast_id">
+                <img v-lazy="imgUrl + cast.profile_path" alt="">
+                <p>{{ cast.name }}</p>
+            </swiper-slide>
+        </swiper>
+    </div>
+</template>
+<script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+export default {
+    name: 'CastBlock',
+    components: {
+        Swiper,
+        SwiperSlide,
+    },
+    props: {
+        id: Number,
+    },
+    data() {
+        return {
+            imgUrl: 'https://www.themoviedb.org/t/p/w138_and_h175_face',
+            casts: [],
+        }
+    },
+    mounted () {
+        this.axios.get(`https://api.themoviedb.org/3/movie/${this.id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+        .then((response) => {
+            this.casts = response.data;
+        })
+    }
+}
+</script>
+<style lang="scss" scoped>
+.intro__cast {
+    background: rgba(104, 107, 114, 0.1);
+    margin: 25px -16px 0;
+    padding: 16px 0 16px 16px;
+}
+img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
+}
+p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0;
+}
+</style>

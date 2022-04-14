@@ -1,10 +1,12 @@
 <template>
     <header id="header" class="header" :class="{ scrolled: scroll }">
         <div class="header header__top">
-            <div class="header header__top__logo">
-                <img src="../assets/logo.png" alt="logo" width="38" height="31" />
-                <p>挖！影</p>
-            </div>
+            <router-link to="/">
+                <div class="header header__top__logo">
+                    <img src="../assets/logo.png" alt="logo" width="38" height="31" />
+                    <p>挖！影</p>
+                </div>
+            </router-link>
             <div class="header header__top__search">
                 <input type="text" name id placeholder="搜尋劇名 / 演員" />
             </div>
@@ -12,20 +14,16 @@
         <div class="header header__bottom">
             <ul class="header header__menu">
                 <li>
-                    <img src="../assets/Icon/Vector.svg" alt="icon" />
-                    <a href="#">電影</a>
+                    <router-link to="/movie"><img src="../assets/Icon/Vector.svg" alt="icon" />電影</router-link>
                 </li>
                 <li>
-                    <img src="../assets/Icon/Union.svg" alt="icon" />
-                    <a href="#">戲劇</a>
+                    <router-link to="/tv"><img src="../assets/Icon/Union.svg" alt="icon" />戲劇</router-link>
                 </li>
                 <li>
-                    <img src="../assets/Icon/Combined-Shape.svg" alt="icon" />
-                    <a href="#">主題館</a>
+                    <a href="/"><img src="../assets/Icon/Combined-Shape.svg" alt="icon" />主題館</a>
                 </li>
                 <li>
-                    <img src="../assets/Icon/fav.svg" alt="icon" />
-                    <a href="#">我的片單</a>
+                    <a href="/"><img src="../assets/Icon/fav.svg" alt="icon" />我的片單</a>
                 </li>
             </ul>
             <div class="header__login">
@@ -83,6 +81,10 @@ header {
         }
         @media (min-width: 1280px) {
             padding: 10px 0 10px 40px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
         }
         &__logo {
             gap: 8px;
@@ -190,6 +192,13 @@ header {
                     }
                 }
                 a {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    margin: 0 10px;
+                    flex-basis: 100%;
+                    width: 100%;
                     color: #686b72;
                     text-decoration: none;
                     font-family: "PingFang SC";
