@@ -27,7 +27,7 @@
                 </li>
             </ul>
             <div class="header__login">
-                <img src="../assets/Group29.png" alt />
+                <img src="../assets/images/Group29.png" alt />
             </div>
         </div>
     </header>

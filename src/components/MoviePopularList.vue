@@ -13,7 +13,8 @@
           :title="movie.title"
           :posterPath="movie.poster_path"
           :vote="movie.vote_average"
-          :id="movie.id"/>
+          :id="movie.id"
+          :type="this.type"/>
       </swiper-slide>
     </swiper>
   </div>
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       movies: [],
+      type: 'movie',
       swiperOptions: {
         breakpoints: {
           768: {
@@ -96,14 +98,6 @@ export default {
     display: none;
     @media (min-width:1280px) {
       display: flex;
-      width: 50px;
-      height: 50px;
-      background: rgba(104, 107, 114, 0.1);
-      border-radius: 13px;
-    }
-    &:after {
-      font-size: 20px;
-      color: #fff;
     }
   }
   :deep() .swiper-button-prev {

@@ -1,8 +1,8 @@
 <template>
 <div class="movie-card">
-    <router-link :to="`/movie/${id}`">
+    <router-link :to="`/${type}/${id}`">
         <div class="movie-card__img-wrapper">
-            <img v-lazy="lazyOptions.src" alt="movie-img" width="152">
+            <img v-lazy="{src: lazyOptions.src, error:  lazyOptions.error, loading: lazyOptions.loading }" alt="movie-img" width="152">
             <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
         </div>
         <p class="movie-card__title">{{ title }}</p>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 export default {
     name: 'MovieCard',
     props: {
@@ -19,21 +19,13 @@ export default {
         posterPath: String,
         vote: Number,
         id: Number,
+        type: String,
     },
     setup(props) {
         const lazyOptions = reactive({
             src: `https://www.themoviedb.org/t/p/w440_and_h660_face${props.posterPath}`,
-            lifecycle: {
-                loading: (el) => {
-                console.log('image loading', el)
-                },
-                error: (el) => {
-                console.log('image error', el)
-                },
-                loaded: (el) => {
-                console.log('image loaded', el)
-                }
-            }
+            loading: require('../assets/images/img_bg.png'),
+            error: require('../assets/images/img_bg.png'),
         })
         return {
             lazyOptions,

@@ -13,7 +13,8 @@
           :title="movie.name"
           :posterPath="movie.poster_path"
           :vote="movie.vote_average"
-          :id="movie.id"/>
+          :id="movie.id"
+          :type="this.type"/>
       </swiper-slide>
     </swiper>
   </div>
@@ -28,7 +29,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import axios from 'axios';
 export default {
-  name: 'MoviePopularList',
+  name: 'TvKoreaPopularList',
   components: {
     ListCard,
     Swiper,
@@ -55,6 +56,7 @@ export default {
   },
   data() {
     return {
+      type: 'tv',
       swiperOptions: {
         breakpoints: {
           768: {
@@ -104,14 +106,6 @@ export default {
     display: none;
     @media (min-width:1280px) {
       display: flex;
-      width: 50px;
-      height: 50px;
-      background: rgba(104, 107, 114, 0.1);
-      border-radius: 13px;
-    }
-    &:after {
-      font-size: 20px;
-      color: #fff;
     }
   }
   :deep() .swiper-button-prev {

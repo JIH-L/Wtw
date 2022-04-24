@@ -53,4 +53,18 @@ img[lazy=loaded] {
     margin-right: 8px;
   }
 }
+.swiper {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    background: rgba(104, 107, 114, 0.1);
+    border-radius: 13px;
+    &:after {
+      font-size: 20px;
+      color: #fff;
+    }
+  }
+}
 </style>

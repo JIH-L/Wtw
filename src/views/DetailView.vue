@@ -1,8 +1,9 @@
 <template>
-    <div class="banner" :style="{'background-image': 'url(' + bgUrl + movieDetail.backdrop_path + ')'}">
+    <div class="banner" :style="{'background-image': 'url(' + bgUrl + detail.backdrop_path + ')'}">
         <div class="banner-info">
-            <span>{{ parseFloat(movieDetail.vote_average).toFixed(1) }}</span>
-            <h2>{{ movieDetail.title }}</h2>
+            <span>{{ parseFloat(detail.vote_average).toFixed(1) }}</span>
+            <h2 v-if="detail.title">{{ detail.title }}</h2>
+            <h2 v-else>{{ detail.name }}</h2>
             <div class="banner-info__link">
                 <a href="#" class="add-list">加入片單</a>
             </div>
@@ -15,34 +16,37 @@
     <div class="container intro" v-if="isShow">
         <div class="intro__pc-container">
             <div class="intro__post">
-                <img v-lazy="imgUrl + movieDetail.poster_path" alt="">
+                <img v-lazy="imgUrl + detail.poster_path" alt="">
             </div>
             <div class="intro__pc-wrap">
                 <ul class="intro__type">
-                    <li v-for="genres in movieDetail.genres" :key="genres.id">{{ genres.name }}</li>
+                    <li v-for="genres in detail.genres" :key="genres.id">{{ genres.name }}</li>
                 </ul>
                 <div class="intro__title">
-                    <h2>{{ movieDetail.title }}</h2>
-                    <span>{{ parseFloat(movieDetail.vote_average).toFixed(1) }}</span>
+                    <h2 v-if="detail.title">{{ detail.title }}</h2>
+                    <h2 v-else>{{ detail.name }}</h2>
+                    <span>{{ parseFloat(detail.vote_average).toFixed(1) }}</span>
                 </div>
                 <div class="intro__detail">
-                    <span class="span-label">{{ releaseDate }}</span>
-                    <span class="span-label">{{ movieDetail.original_language }}</span>
-                    <span class="span-label">{{ runtime }}</span>
-                    <span class="span-label">導演 {{ director }}</span>
+                    <span class="span-label" v-if="detail.release_date">{{ releaseDate }}</span>
+                    <span class="span-label" v-if="detail.first_air_date">{{ releaseDate }}</span>
+                    <span class="span-label">{{ detail.original_language }}</span>
+                    <span class="span-label" v-if="type == 'movie'">{{ runtime }}</span>
+                    <span class="span-label" v-if="credits.crew">導演 {{ director }}</span>
+                    <!-- <span class="span-label" v-if="detail.created_by">導演<span v-for="created_by in detail.created_by" :key="created_by.id">{{ created_by.name }}</span></span> -->
                 </div>
                 <div class="intro__overview">
                     <span class="span-label">劇情介紹</span>
-                    <p>{{ movieDetail.overview }}</p>
+                    <p>{{ detail.overview }}</p>
                 </div>
-                <WatchProviders :id="movieId"/>
+                <WatchProviders :id="id" :type="type"/>
             </div>
         </div>
-        <Cast :id="movieId"/>
-        <Similar :id="movieId"/>
+        <Cast :id="id" :type="type"/>
+        <Similar :id="id" :type="type"/>
     </div>
     <div class="container review" v-else>
-        <p>沒有關於{{ movieDetail.title }}的評論</p>
+        <p>沒有關於{{ detail.title }}的評論</p>
     </div>
 </template>
 <script>
@@ -58,38 +62,51 @@ export default {
     },
     data () {
         return {
-            movieDetail: {},
-            movieCredits: {},
+            detail: {},
+            credits: {},
             imgUrl: 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2',
             bgUrl: 'https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/',
             isShow: true,
         }
     },
     computed: {
-        movieId() {
-            return this.$route.params.movieId;
+        id() {
+            return this.$route.params.id;
+        },
+        type() {
+            return this.$route.params.type;
         },
         director() {
-            return this.movieCredits.crew.filter(item => item.job == 'Director')[0].name;
+            return this.credits.crew.filter(item => item.job == 'Director')[0].name;
         },
         releaseDate() {
-            return this.movieDetail.release_date.replace(/-/g,"/");
+            let type = this.type;
+            let movieDate = this.detail.release_date;
+            let tvDate = this.detail.first_air_date;
+            let date = '';
+            if(type == "movie") {
+                date = movieDate;
+            }else {
+                date = tvDate;
+            }
+            date = date.replace(/-/g,"/");
+            return date;
         },
         runtime() {
             let result = '';
-            let h = Math.floor((this.movieDetail.runtime / 60 % 60));
-            let s = Math.floor(this.movieDetail.runtime % 60);
+            let h = Math.floor((this.detail.runtime / 60 % 60));
+            let s = Math.floor(this.detail.runtime % 60);
             result = h + "小時" + s + "分鐘"
             return result;
         },
     },
     methods: {
-        async fetchMovieDetail(id) {
-            return await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+        async fetchMovieDetail(id, type) {
+            return await axios.get(`https://api.themoviedb.org/3/${type}/${id}?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
             .then((response) => response.data);
         },
-        async fetchMovieCredits(id) {
-            return await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+        async fetchMovieCredits(id, type) {
+            return await axios.get(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
             .then((response) => response.data);
         },
         introShow() {
@@ -100,8 +117,8 @@ export default {
         }
     },
     async created() {
-        this.movieDetail = await this.fetchMovieDetail(this.movieId);
-        this.movieCredits = await this.fetchMovieCredits(this.movieId);
+        this.detail = await this.fetchMovieDetail(this.id, this.type);
+        this.credits = await this.fetchMovieCredits(this.id, this.type);
     }
 }
 </script>

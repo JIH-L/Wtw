@@ -1,13 +1,17 @@
 <template>
   <div class="movie">
     <div class="movie__filter">
-      <p>filter</p>
+      <p @click="ascVote">ascVote</p>
+      <p @click="descVote">評分</p>
+      <p @click="descReleaseDate">上映</p>
     </div>
     <div class="movie__wrap">
       <ListCard v-for="movie in movies" :key="movie.id"
         :title="movie.title"
         :posterPath="movie.poster_path"
-        :vote="movie.vote_average"/>
+        :vote="movie.vote_average"
+        :id="movie.id"
+        :type="this.type"/>
     </div>
   </div>
 </template>
@@ -20,6 +24,7 @@ export default {
   data() {
     return {
       movies: [],
+      type: 'movie',
     }
   },
   mounted() {
@@ -30,6 +35,20 @@ export default {
     }).catch(error => {
         console.log(error);
     })
+  },
+  computed: {
+    
+  },
+  methods: {
+    ascVote() {
+      this.movies.sort((a,b)=> parseFloat(a.vote_average) - parseFloat(b.vote_average));
+    },
+    descVote() {
+      this.movies.sort((a,b)=> parseFloat(b.vote_average) - parseFloat(a.vote_average));
+    },
+    descReleaseDate() {
+      this.movies.sort((a,b)=> new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+    }
   }
 }
 </script>

@@ -3,15 +3,17 @@
         <swiper
         :slides-per-view="4.3"
         :space-between="8"
+        :breakpoints="swiperOptions.breakpoints"
         >
             <swiper-slide v-for="cast in casts.cast" :key="cast.cast_id">
-                <img v-lazy="imgUrl + cast.profile_path" alt="">
+                <img v-lazy="{src: imgUrl + cast.profile_path, error: lazyOptions.error }" alt="">
                 <p>{{ cast.name }}</p>
             </swiper-slide>
         </swiper>
     </div>
 </template>
 <script>
+import { reactive } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 export default {
     name: 'CastBlock',
@@ -20,16 +22,38 @@ export default {
         SwiperSlide,
     },
     props: {
-        id: Number,
+        id: String,
+        type: String,
+    },
+    setup() {
+        const lazyOptions = reactive({
+            loading: require('../assets/images/cast.png'),
+            error: require('../assets/images/cast.png'),
+        })
+        return {
+            lazyOptions,
+        }
     },
     data() {
         return {
             imgUrl: 'https://www.themoviedb.org/t/p/w138_and_h175_face',
             casts: [],
+            swiperOptions: {
+                breakpoints: {
+                    768: {
+                        slidesPerView: 8.5,
+                        spaceBetween: 13
+                    },
+                    1280: {       
+                        slidesPerView: 14,
+                        spaceBetween: 13
+                    }
+                }
+            }
         }
     },
     mounted () {
-        this.axios.get(`https://api.themoviedb.org/3/movie/${this.id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+        this.axios.get(`https://api.themoviedb.org/3/${this.type}/${this.id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
         .then((response) => {
             this.casts = response.data;
         })
@@ -41,6 +65,10 @@ export default {
     background: rgba(104, 107, 114, 0.1);
     margin: 25px -16px 0;
     padding: 16px 0 16px 16px;
+    @media (min-width: 1280px) {
+        border-radius: 20px;
+        padding: 16px;
+    }
 }
 img {
     width: 75px;
