@@ -2,7 +2,14 @@
   <div class="movie-card">
     <router-link :to="`/${type}/${id}`">
       <div class="movie-card__img-wrapper">
-        <img :data-src="imgSrc + posterPath" src="@/assets/images/img_bg.png" :lazy="load" alt="movie-img" width="152" height="280" />
+        <img
+          :data-src="imgSrc + posterPath"
+          src="@/assets/images/img_bg.png"
+          :lazy="load"
+          alt="movie-img"
+          width="152"
+          height="280"
+        />
         <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
       </div>
       <p class="movie-card__title">{{ title }}</p>
@@ -24,33 +31,34 @@ export default {
     return {
       imgSrc: `https://www.themoviedb.org/t/p/w440_and_h660_face`,
       img: null,
-      load: 'loading',
+      load: "loading",
+      images: [],
+      options: {
+        rootMargin: "0px 0px 100px 0px",
+        threshold: 0,
+      },
     };
   },
   mounted() {
-    const images = document.querySelectorAll("[data-src]");
-    const options = {
-        rootMargin: '0px 0px 100px 0px',
-        threshold: 0
-    }
-    const loadImage = (img) => {
-      const src = img.getAttribute('data-src')
-      if (!src) return
-      img.src = src
-      this.load = 'loaded';
-    }
-    const callback = (entries, observer) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return
-        loadImage(entry.target)
-        observer.unobserve(entry.target)
-      })
-    }
-    let observer = new IntersectionObserver(callback, options)
-    images.forEach(image => observer.observe(image))
+    this.images = document.querySelectorAll("[data-src]");
+    let observer = new IntersectionObserver(this.callback, this.options);
+    this.images.forEach((image) => observer.observe(image));
   },
-  methods() {
-  }
+  methods: {
+    loadImage(img) {
+      const src = img.getAttribute("data-src");
+      if (!src) return;
+      img.src = src;
+      this.load = "loaded";
+    },
+    callback(entries, observer) {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        this.loadImage(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+  },
 };
 </script>
 

@@ -17,7 +17,7 @@
           :type="this.type"
         />
       </div>
-      <Observer @intersect="intersected" :options="options"/>
+      <Observer @intersect="intersected" :options="options" />
     </div>
   </div>
 </template>
@@ -36,13 +36,11 @@ export default {
       page: 1,
       totalPage: null,
       options: {
-        rootMargin: '0px 0px 10px 0px',
-        threshold: 0
+        rootMargin: "0px 0px 10px 0px",
+        threshold: 0,
       },
     };
   },
-  mounted() {},
-  computed: {},
   methods: {
     intersected() {
       let loader = this.$loading.show();
@@ -59,7 +57,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-
       this.page++;
     },
     ascVote() {
