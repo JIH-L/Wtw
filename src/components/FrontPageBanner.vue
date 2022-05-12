@@ -15,7 +15,7 @@
             <p>{{ movie.overview }}</p>
             <div class="banner-info__link">
                 <router-link :to="`/movie/${movie.id}`" class="more">更多資訊</router-link>
-                <a href="#" class="add-list">加入片單</a>
+                <!-- <a href="#" class="add-list">加入片單</a> -->
             </div>
         </div>
     </swiper-slide>

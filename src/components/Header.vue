@@ -7,16 +7,16 @@
                     <p>挖！影</p>
                 </div>
             </router-link>
-            <div class="header header__top__search">
+            <!-- <div class="header header__top__search">
                 <input type="text" name id placeholder="搜尋劇名 / 演員" />
-            </div>
+            </div> -->
         </div>
         <div class="header header__bottom">
             <ul class="header header__menu">
                 <li>
                     <router-link to="/movie"><img src="../assets/Icon/Vector.svg" alt="icon" />電影</router-link>
                 </li>
-                <li>
+                <!-- <li>
                     <router-link to="/tv"><img src="../assets/Icon/Union.svg" alt="icon" />戲劇</router-link>
                 </li>
                 <li>
@@ -24,7 +24,7 @@
                 </li>
                 <li>
                     <a href="/"><img src="../assets/Icon/fav.svg" alt="icon" />我的片單</a>
-                </li>
+                </li> -->
             </ul>
             <div class="header__login">
                 <img src="../assets/images/Group29.png" alt />
