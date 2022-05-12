@@ -45,6 +45,7 @@ export default {
   computed: {},
   methods: {
     intersected() {
+      let loader = this.$loading.show();
       this.axios
         .get(
           `https://api.themoviedb.org/3/movie/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW&page=${this.page}`
@@ -53,6 +54,7 @@ export default {
           this.totalPage = response.data.total_pages;
           let data = response.data.results;
           this.movies = [...this.movies, ...data];
+          loader.hide();
         })
         .catch((error) => {
           console.log(error);
