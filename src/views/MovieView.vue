@@ -48,7 +48,7 @@ export default {
       let loader = this.$loading.show();
       this.axios
         .get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW&page=${this.page}`
+          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW&page=${this.page}`
         )
         .then((response) => {
           this.totalPage = response.data.total_pages;

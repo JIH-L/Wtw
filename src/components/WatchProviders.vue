@@ -27,7 +27,7 @@ export default {
         }
     },
     mounted () {
-        this.axios.get(`https://api.themoviedb.org/3/${this.type}/${this.id}/watch/providers?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+        this.axios.get(`https://api.themoviedb.org/3/${this.type}/${this.id}/watch/providers?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`)
         .then((response) => {
             this.providers = response.data.results.TW;
         })

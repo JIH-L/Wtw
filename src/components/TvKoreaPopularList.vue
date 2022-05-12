@@ -36,7 +36,7 @@ export default {
     SwiperSlide,
   },
   setup() {
-    let url = 'https://api.themoviedb.org/3/tv/popular?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW'
+    let url = `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`
     let movies = ref([]);
     async function fetchMovieData() {
       let page = 0;

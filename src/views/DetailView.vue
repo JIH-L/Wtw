@@ -118,7 +118,7 @@ export default {
       });
       await this.axios
         .get(
-          `https://api.themoviedb.org/3/${type}/${id}?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`
+          `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`
         )
         .then((response) => {
           this.detail = response.data;
@@ -128,7 +128,7 @@ export default {
     async fetchMovieCredits(id, type) {
       return await this.axios
         .get(
-          `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`
+          `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`
         )
         .then((response) => response.data);
     },

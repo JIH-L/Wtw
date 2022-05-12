@@ -85,11 +85,11 @@ export default {
     },
     methods: {
         async fetchMovieDetail(id) {
-            return await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+            return await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`)
             .then((response) => response.data);
         },
         async fetchMovieCredits(id) {
-            return await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=7e4fef9f0c4f59d26803904bfcc5f31c&language=zh-TW`)
+            return await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`)
             .then((response) => response.data);
         },
         introShow() {
