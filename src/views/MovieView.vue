@@ -1,11 +1,12 @@
 <template>
   <div class="movie">
-    <!-- <div class="movie__filter">
-      <p @click="ascVote">ascVote</p>
-      <p @click="descVote">評分</p>
-      <p @click="descReleaseDate">上映</p>
-    </div> -->
     <div class="movie__container">
+      <div class="movie__filter">
+        <a @click="this.sort('popularity.desc')">人氣 ↓ </a>
+        <a @click="this.sort('popularity.asc')">人氣 ↑ </a>
+        <a @click="this.sort('primary_release_date.desc')">上映 ↓ </a>
+        <a @click="this.sort('primary_release_date.asc')">上映 ↑ </a>
+      </div>
       <div class="movie__wrap">
         <ListCard
           v-for="movie in movies"
@@ -39,42 +40,49 @@ export default {
         rootMargin: "0px 0px 10px 0px",
         threshold: 0,
       },
+      sortBy: '',
     };
   },
   methods: {
     intersected() {
       let loader = this.$loading.show();
-      this.axios
-        .get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW&page=${this.page}`
-        )
-        .then((response) => {
-          this.totalPage = response.data.total_pages;
-          let data = response.data.results;
-          this.movies = [...this.movies, ...data];
-          loader.hide();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      this.page++;
+      if(this.sortBy) {
+        this.axios
+            .get(
+              `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW&page=${this.page}&sort_by=${this.sortBy}`
+            )
+            .then((response) => {
+              this.totalPage = response.data.total_pages;
+              let data = response.data.results;
+              this.movies = [...this.movies, ...data];
+              loader.hide();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          this.page++;
+      } else {
+        this.axios
+            .get(
+              `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW&page=${this.page}`
+            )
+            .then((response) => {
+              this.totalPage = response.data.total_pages;
+              let data = response.data.results;
+              this.movies = [...this.movies, ...data];
+              loader.hide();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          this.page++;
+      }
     },
-    ascVote() {
-      this.movies.sort(
-        (a, b) => parseFloat(a.vote_average) - parseFloat(b.vote_average)
-      );
-    },
-    descVote() {
-      this.movies.sort(
-        (a, b) => parseFloat(b.vote_average) - parseFloat(a.vote_average)
-      );
-    },
-    descReleaseDate() {
-      this.movies.sort(
-        (a, b) =>
-          new Date(b.release_date).getTime() -
-          new Date(a.release_date).getTime()
-      );
+    sort(val) {
+      this.movies = [];
+      this.sortBy = val;
+      this.page = 1;
+      this.intersected();
     },
   },
 };
@@ -93,6 +101,20 @@ export default {
     @media (min-width: 1280px) {
       max-width: 992px;
       margin: 40px auto 16px;
+    }
+  }
+  &__filter {
+    display: flex;
+    gap: 10px;
+    margin: 40px 16px;
+    @media (min-width: 1280px) {
+      margin: 40px auto 16px;
+      max-width: 992px;
+    }
+    a {
+      border: 1px solid #fff;
+      border-radius: 5px;
+      padding: 4px;
     }
   }
 }

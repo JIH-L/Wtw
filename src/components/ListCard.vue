@@ -3,7 +3,7 @@
     <router-link :to="`/${type}/${id}`">
       <div class="movie-card__img-wrapper">
         <img
-          :data-src="imgSrc + posterPath"
+          :data-src="posterPath"
           src="@/assets/images/img_bg.png"
           :lazy="load"
           alt="movie-img"
@@ -48,7 +48,7 @@ export default {
     loadImage(img) {
       const src = img.getAttribute("data-src");
       if (!src) return;
-      img.src = src;
+      img.src = this.imgSrc + src;
       this.load = "loaded";
     },
     callback(entries, observer) {
