@@ -8,7 +8,7 @@
           :lazy="load"
           alt="movie-img"
           width="152"
-          height="280"
+          height="201"
         />
         <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
       </div>
@@ -90,9 +90,6 @@ export default {
       border-radius: 8px;
       overflow: hidden;
       filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
-      @media (min-width: 1280px) {
-        min-height: 228px;
-      }
     }
     .movie-vote {
       position: absolute;
