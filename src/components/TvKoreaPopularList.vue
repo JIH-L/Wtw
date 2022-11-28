@@ -10,7 +10,7 @@
     >
       <swiper-slide v-for="movie in movies" :key="movie.id">
         <ListCard 
-          :title="movie.name"
+          :title="movie.title"
           :posterPath="movie.poster_path"
           :vote="movie.vote_average"
           :id="movie.id"
@@ -36,15 +36,25 @@ export default {
     SwiperSlide,
   },
   setup() {
-    let url = `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.VUE_APP_API_KEY}&language=zh-TW`
+    let url = `https://api.themoviedb.org/3/discover/tv`;
     let movies = ref([]);
     async function fetchMovieData() {
-      let page = 0;
-      do {
-          let { data: response }  = await axios.get(url, { params: { page: ++page } });
-          movies.value = movies.value.concat(response.results);
-          movies.value = movies.value.filter(item => item.origin_country == 'KR');
-      } while (movies.value.length < 30)
+      await axios.get(url, {
+        params: {
+          "api_key": process.env.VUE_APP_API_KEY,
+          "language": "zh-TW",
+          "with_original_language": "ko",
+          "ott_region": "TW",
+          "certification_country": "TW",
+          "air_date.lte": "2023-05-28",
+          "release_date.lte": "2023-05-28",
+          "sort_by": "popularity.desc"
+        }
+      })
+      .then((res) => {
+        movies.value = res.data.results;
+        console.log(movies)
+      })
     }
 
     onMounted(fetchMovieData);
