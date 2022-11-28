@@ -65,9 +65,13 @@
               </li>
             </ul>
           </div>
-          <!-- <div>
+          <div>
             <h3>評分</h3>
-          </div> -->
+            <div class="vote">
+              <input type="range" id="vote" name="vote" min="0" max="10" value="10" step="1" v-model="movieVote">
+              <label for="vote">{{this.movieVote}}</label>
+            </div>
+          </div>
           <button @click="search">搜尋</button>
         </div>
         <div class="movie__filter__sort">
@@ -124,6 +128,7 @@ export default {
       sortBy: 'popularity.desc',
       movieSearch: false,
       movieType:[],
+      movieVote: "10",
     };
   },
   methods: {
@@ -140,6 +145,8 @@ export default {
                   'air_date.lte': '2023-05-27',
                   'release_date.lte': '2023-05-27',
                   'with_genres': this.movieType.toString(),
+                  'vote_average.gte': 0,
+                  'vote_average.lte': this.movieVote,
                 }
               }
             )
@@ -248,9 +255,45 @@ export default {
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
       color: #fff;
       margin-top: 14px;
+      &:hover {
+        cursor: pointer;
+      }
     }
     &__filters {
-      margin-bottom: 14px;
+      margin-bottom: 24px;
+      >div {
+        margin-bottom: 24px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+      .vote {
+        display: flex;
+        label {
+          margin-left: 10px;
+        }
+        input {
+          display: flex;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 25%;
+          height: 20px;
+          border-radius: 13px;
+          background: black;
+          outline: none;
+          &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background-image: linear-gradient(91.47deg, #c10171 3.73%, #5c00f2 100%),
+            linear-gradient(91.47deg, #c10171 3.73%, #5c00f2 100%);
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.48);
+            border-radius: 50px;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
 }
