@@ -71,6 +71,8 @@ export default {
   }
   &__img-wrapper {
     position: relative;
+    display: flex;
+    height: calc(100% - 36px);
     img {
       width: 100%;
       height: auto;

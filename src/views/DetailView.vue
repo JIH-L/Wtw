@@ -19,7 +19,7 @@
   <div class="container intro" v-if="isShow">
     <div class="intro__pc-container">
       <div class="intro__post">
-        <img v-lazy="imgUrl + detail.poster_path" alt="poster" width="300" />
+        <img v-lazy="imgUrl + detail.poster_path" alt="poster" width="300" height="450"/>
       </div>
       <div class="intro__pc-wrap">
         <ul class="intro__type">

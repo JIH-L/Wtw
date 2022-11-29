@@ -32,9 +32,23 @@ body {
     transform: rotate(360deg);
   }
 }
+@keyframes loading {
+   to{
+     background-position-x: -20%;
+   }
+}
 img[lazy="loading"] {
-  opacity: 0;
-  transition: opacity 1s;
+  // opacity: 0;
+  // transition: opacity 1s;
+  background: linear-gradient(
+            100deg, 
+            rgba(180, 180, 180, 0) 30%,
+            rgba(142, 142, 142, 0.5) 50%,
+            rgba(256, 256, 256, 0) 30%)
+            rgba(104, 107, 114, 0.1);
+        background-size: 200% 100%;
+        background-position-x: 180%;
+        animation: 2s loading ease-in-out infinite;
 }
 img[lazy="loaded"] {
   opacity: 1;
