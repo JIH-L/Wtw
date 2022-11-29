@@ -3,12 +3,10 @@
     <router-link :to="`/${type}/${id}`">
       <div class="movie-card__img-wrapper">
         <img
-          :data-src="posterPath"
-          src="@/assets/images/img_bg.png"
-          :lazy="load"
+          v-lazy="{ src: imgSrc + posterPath, error: lazyOptions.error }"
           alt="movie-img"
           width="152"
-          height="201"
+          height="286"
         />
         <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
       </div>
@@ -18,6 +16,7 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
 export default {
   name: "MovieCard",
   props: {
@@ -27,10 +26,19 @@ export default {
     id: Number,
     type: String,
   },
+  setup() {
+        const lazyOptions = reactive({
+            error: require('../assets/images/img_bg.png'),
+        })
+        return {
+            lazyOptions,
+        }
+    },
   data() {
     return {
       imgSrc: `https://www.themoviedb.org/t/p/w440_and_h660_face`,
       img: null,
+      errorImg: '@/assets/images/img_bg.png',
       load: "loading",
       images: [],
       options: {
@@ -38,26 +46,6 @@ export default {
         threshold: 0,
       },
     };
-  },
-  mounted() {
-    this.images = document.querySelectorAll("[data-src]");
-    let observer = new IntersectionObserver(this.callback, this.options);
-    this.images.forEach((image) => observer.observe(image));
-  },
-  methods: {
-    loadImage(img) {
-      const src = img.getAttribute("data-src");
-      if (!src) return;
-      img.src = this.imgSrc + src;
-      this.load = "loaded";
-    },
-    callback(entries, observer) {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        this.loadImage(entry.target);
-        observer.unobserve(entry.target);
-      });
-    },
   },
 };
 </script>
@@ -83,7 +71,6 @@ export default {
   }
   &__img-wrapper {
     position: relative;
-
     img {
       width: 100%;
       height: auto;
