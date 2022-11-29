@@ -10,7 +10,7 @@
     >
       <swiper-slide v-for="movie in movies" :key="movie.id">
         <ListCard 
-          :title="movie.title"
+          :title="movie.name"
           :posterPath="movie.poster_path"
           :vote="movie.vote_average"
           :id="movie.id"
@@ -53,7 +53,6 @@ export default {
       })
       .then((res) => {
         movies.value = res.data.results;
-        console.log(movies)
       })
     }
 

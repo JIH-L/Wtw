@@ -68,7 +68,7 @@
           <div>
             <h3>評分</h3>
             <div class="vote">
-              <input type="range" id="vote" name="vote" min="0" max="10" value="10" step="1" v-model="movieVote">
+              <input type="range" id="vote" name="vote" min="0" max="10" step="1" v-model="movieVote">
               <label for="vote">{{this.movieVote}}</label>
             </div>
           </div>
