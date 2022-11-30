@@ -189,23 +189,29 @@ export default {
   &__wrap {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 9px;
-    row-gap: 20px;
-    margin: 0 16px;
+    column-gap: 16px;
+    row-gap: 34px;
+    margin: 40px auto 16px;
+    max-width: 380px;
     @media (min-width: 768px) {
       grid-template-columns: repeat(5, 1fr);
+      max-width: 768px;
     }
     @media (min-width: 1280px) {
+      grid-template-columns: repeat(6, 1fr);
       max-width: 992px;
-      margin: 40px auto 16px;
     }
   }
   &__filter {
     background: rgba(104, 107, 114, 0.1);
     border-radius: 13px;
     gap: 10px;
-    margin: 40px 16px;
+    margin: 40px auto;
     padding: 20px;
+    max-width: 380px;
+    @media (min-width: 768px) {
+      max-width: 768px;
+    }
     @media (min-width: 1280px) {
       margin: 40px auto 16px;
       padding: 24px;

@@ -6,7 +6,7 @@
           v-lazy="{ src: imgSrc + posterPath, error: lazyOptions.error }"
           alt="movie-img"
           width="152"
-          height="286"
+          height="201"
         />
         <span class="movie-vote">{{ parseFloat(vote).toFixed(1) }}</span>
       </div>
@@ -65,20 +65,18 @@ export default {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     white-space: normal;
-    @media (min-width: 1280px) {
-      margin-top: 16px;
-    }
   }
   &__img-wrapper {
     position: relative;
-    display: flex;
-    height: calc(100% - 36px);
     img {
       width: 100%;
-      height: auto;
       border-radius: 8px;
       overflow: hidden;
       filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.48));
+      max-height: 168px;
+    @media (min-width: 768px) {
+      max-height: initial;
+    }
     }
     .movie-vote {
       position: absolute;
